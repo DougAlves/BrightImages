@@ -7,7 +7,9 @@ public class PatternMatcher {
 	public PatternMatcher(String pattern) {
 		this.pattern = pattern;
 	}
-	
+	public String getPattern() {
+		return pattern;
+	}
 	public String extractPathern(String obj) {
     	String toReturn = "";
     	int pLenght = pattern.length();

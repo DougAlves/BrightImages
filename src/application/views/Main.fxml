@@ -10,8 +10,8 @@
 
 <AnchorPane onDragDropped="#setAlpha1" prefHeight="634.0" prefWidth="879.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controllers.OcrController">
   <children>
-    <Button fx:id="btnExtrair" layoutX="749.0" layoutY="329.0" mnemonicParsing="false" onAction="#doOcr" text="Extrair dados" />
-    <Slider fx:id="alpha1" layoutX="68.0" layoutY="457.0" majorTickUnit="0.25" max="2.0" onDragDropped="#setAlpha1" onDragOver="#setAlpha1" onMouseDragOver="#setAlpha1" onMouseReleased="#setAlpha1" showTickLabels="true" showTickMarks="true" />
+    <Button fx:id="btnExtrair" layoutX="625.0" layoutY="553.0" mnemonicParsing="false" onAction="#doOcr" text="Extrair dados" />
+    <Slider fx:id="alpha1" layoutX="68.0" layoutY="457.0" majorTickUnit="0.25" max="2.0" onDragDropped="#setAlpha1" onDragOver="#setAlpha1" onMouseDragOver="#setAlpha1" onMouseReleased="#setAlpha1" showTickLabels="true" showTickMarks="true" value="1.5" />
     <Slider fx:id="beta1" blockIncrement="1.0" layoutX="69.0" layoutY="527.0" majorTickUnit="1.0" max="4.0" minorTickCount="1" onDragDropped="#setBeta1" onMouseReleased="#setBeta1" showTickLabels="true" showTickMarks="true" />
     <Label layoutX="68.0" layoutY="430.0" text="Alpha">
       <font>
@@ -19,7 +19,7 @@
       </font>
     </Label>
     <Label font="$x1" layoutX="69.0" layoutY="498.0" text="Beta" />
-    <Slider fx:id="alpha2" layoutX="268.0" layoutY="457.0" majorTickUnit="0.25" max="2.0" onDragDropped="#setAlpha2" onMouseReleased="#setAlpha2" showTickLabels="true" showTickMarks="true" />
+    <Slider fx:id="alpha2" layoutX="268.0" layoutY="457.0" majorTickUnit="0.25" max="2.0" onDragDropped="#setAlpha2" onMouseReleased="#setAlpha2" showTickLabels="true" showTickMarks="true" value="0.85" />
     <Slider fx:id="beta2" blockIncrement="1.0" layoutX="269.0" layoutY="527.0" majorTickUnit="1.0" max="4.0" minorTickCount="1" onDragDropped="#setBeta2" onMouseReleased="#setBeta2" showTickLabels="true" showTickMarks="true" />
     <Label font="$x1" layoutX="269.0" layoutY="430.0" text="Alpha" />
     <Label font="$x1" layoutX="269.0" layoutY="498.0" text="Beta" />
@@ -33,10 +33,10 @@
             <Font size="33.0" />
          </font>
       </Label>
-      <ImageView id="imgField" fx:id="imgPanel" fitHeight="235.0" fitWidth="538.0" layoutX="171.0" layoutY="43.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView id="imgField" fx:id="imgPanel" fitHeight="301.0" fitWidth="850.0" layoutX="14.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true" />
       <TextField fx:id="txtPreco" layoutX="440.0" layoutY="393.0" />
       <TextField fx:id="txtCEP" layoutX="620.0" layoutY="393.0" />
-      <Label layoutX="441.0" layoutY="368.0" text="Preco">
+      <Label layoutX="441.0" layoutY="368.0" text="Valor">
          <font>
             <Font size="18.0" />
          </font>
@@ -46,20 +46,27 @@
             <Font size="18.0" />
          </font>
       </Label>
-      <TextField fx:id="txtCC" layoutX="440.0" layoutY="472.0" />
-      <TextField fx:id="txtMA" layoutX="620.0" layoutY="472.0" />
-      <Label layoutX="434.0" layoutY="444.0" text="Conta Contrato">
+      <TextField fx:id="txtCC" layoutX="440.0" layoutY="464.0" />
+      <TextField fx:id="txtMA" layoutX="620.0" layoutY="464.0" />
+      <Label layoutX="441.0" layoutY="432.0" text="Conta Contrato">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <Label layoutX="614.0" layoutY="444.0" text="Mes/Ano">
+      <Label layoutX="620.0" layoutY="432.0" text="Mes/Ano">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <Button layoutX="440.0" layoutY="527.0" mnemonicParsing="false" text="Salvar informações" />
+      <Button fx:id="btnLog" layoutX="438.0" layoutY="553.0" mnemonicParsing="false" onAction="#doLog" text="Salvar informações" />
       <Button fx:id="fileChoser" layoutX="441.0" layoutY="329.0" mnemonicParsing="false" onAction="#selecionarArquivo" text="Escolher imagem" />
       <AnchorPane layoutX="440.8999938964844" layoutY="335.8999938964844" />
+      <Button fx:id="btnWebcam" layoutX="625.0" layoutY="329.0" mnemonicParsing="false" onAction="#selectFromWebcam" text="Webcam" />
+      <TextField fx:id="txtVencimento" layoutX="440.0" layoutY="523.0" />
+      <Label layoutX="444.0" layoutY="499.0" text="Vencimento">
+         <font>
+            <Font size="19.0" />
+         </font>
+      </Label>
   </children>
 </AnchorPane>

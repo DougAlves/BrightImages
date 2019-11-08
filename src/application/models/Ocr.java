@@ -2,10 +2,12 @@ package application.models;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.opencv.core.Mat;
 import org.opencv.imgcodecs.Imgcodecs;
+import org.opencv.imgproc.Imgproc;
 
 import net.sourceforge.tess4j.Tesseract;
 import net.sourceforge.tess4j.TesseractException;
@@ -19,11 +21,12 @@ public class Ocr {
 	private File image;
 	private PatternMatcher lowPricePattern;
 	private PatternMatcher highPricePattern;
+	private PatternMatcher priceWithComa;
 	private PatternMatcher cepPattern;
 	private PatternMatcher datePattern;
 	private PatternMatcher contratoPattern;
 	private PatternMatcher vencimentoPattern;
-
+	private PatternMatcher cep2Pattern;
 	public Ocr() {
 		tesseract = new Tesseract();
 		tesseract.setLanguage("por");
@@ -31,9 +34,11 @@ public class Ocr {
 		lowPricePattern = new PatternMatcher("nn.nn");
 		highPricePattern = new PatternMatcher("nnn.nn");
 		cepPattern = new PatternMatcher("nnnnn—nnn");
-		datePattern = new PatternMatcher("nn/nn");
+		cep2Pattern = new PatternMatcher("nnnnn-nnn");
+		datePattern = new PatternMatcher("nn/nnnn");
 		contratoPattern = new PatternMatcher("nnnnnnnnnn");
 		vencimentoPattern = new PatternMatcher("nn/nn/nnnn");
+		priceWithComa = new PatternMatcher("nnn,nn");
 	}
 	
 	
@@ -51,22 +56,22 @@ public class Ocr {
 			return "";
 		}
 	}
-	public List<String> extractInfo(String text){
-		List<String> patterns = new ArrayList<String>();
-		patterns.add(lowPricePattern.extractPathern(text));
-		patterns.add(highPricePattern.extractPathern(text));
-		patterns.add(cepPattern.extractPathern(text));
-		patterns.add(datePattern.extractPathern(text));
-		patterns.add(contratoPattern.extractPathern(text));
-		patterns.add(vencimentoPattern.extractPathern(text));
-		
+	public HashMap<String,String> extractInfo(String text){
+		HashMap<String,String> patterns = new HashMap<String,String>();
+		patterns.put(lowPricePattern.getPattern(), lowPricePattern.extractPathern(text));
+		patterns.put(highPricePattern.getPattern(),highPricePattern.extractPathern(text));
+		patterns.put(cepPattern.getPattern(), cepPattern.extractPathern(text));
+		patterns.put(datePattern.getPattern(), datePattern.extractPathern(text));
+		patterns.put(contratoPattern.getPattern(),contratoPattern.extractPathern(text));
+		patterns.put(vencimentoPattern.getPattern(),vencimentoPattern.extractPathern(text));
+		patterns.put(cep2Pattern.getPattern(),cep2Pattern.extractPathern(text));
+		patterns.put(priceWithComa.getPattern(),priceWithComa.extractPathern(text));
 		return patterns;
 	}	
 	
-	public File prepareImage(File path) throws Exception{
+	public File prepareImage(File path) {
 		Mat img = new Mat();
         img = Imgcodecs.imread(path.getAbsolutePath(), Imgcodecs.IMREAD_GRAYSCALE);
-        if (img.empty()) throw new Exception();
         System.out.println(img);
         Mat contrasted = new Mat();
         img.convertTo(contrasted, 4, alpha1, beta1);
@@ -75,15 +80,26 @@ public class Ocr {
         return new File("images/current.jpg");
 	}
 	
+	public void prepareImage(Mat img) {
+		Imgproc.cvtColor(img, img, Imgproc.COLOR_BGR2GRAY);
+		Mat contrasted = new Mat();
+        img.convertTo(contrasted, 4, alpha1, beta1);
+        contrasted.convertTo(contrasted, 3, alpha2, beta2);
+        Imgcodecs.imwrite("images/current.jpg", contrasted);
+        this.image = new File("./images/current.jpg");
+	}
+	
 	public void prepareImage() throws Exception{
 		Mat img = new Mat();
         img = Imgcodecs.imread(image.getAbsolutePath(), Imgcodecs.IMREAD_GRAYSCALE);
+        System.out.println(img);
         if (img.empty()) throw new Exception();
         System.out.println(img);
         Mat contrasted = new Mat();
-        img.convertTo(contrasted, 4, alpha1, beta1);
-        contrasted.convertTo(contrasted, 3, alpha2, beta2);
-        Imgcodecs.imwrite("./images/current.jpg", contrasted);
+        img.convertTo(contrasted, 4, getAlpha1(), beta1);
+        contrasted.convertTo(contrasted, 3, getAlpha2(), beta2);
+        System.out.println(Imgcodecs.imwrite("images/current.jpg", contrasted));
+        this.image = new File("./images/current.jpg");
 	}
 	
 	public String toString() {

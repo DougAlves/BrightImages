@@ -1,5 +1,7 @@
 package application;
 	
+import org.opencv.core.Core;
+
 import application.controllers.OcrController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -9,6 +11,11 @@ import javafx.stage.Stage;
 
 
 public class Main extends Application {
+	
+	static {
+		System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
+	}
+	
 	@Override
 	public void start(Stage primaryStage) {
 		try {
